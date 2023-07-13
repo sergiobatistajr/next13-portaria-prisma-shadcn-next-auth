@@ -1,4 +1,4 @@
-const AdminPage = () => {
+const AdminPage = async () => {
   return <div>Admin Page</div>;
 };
 

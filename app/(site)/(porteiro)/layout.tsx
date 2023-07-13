@@ -1,17 +1,14 @@
 import { redirect } from "next/navigation";
 
 import getUser from "@/app/actions/getCurrentUser";
-interface SiteLayoutProps {
+
+interface PorteiroLayoutProps {
   children: React.ReactNode;
 }
-
-const SiteLayout: React.FC<SiteLayoutProps> = async ({ children }) => {
+const PorteiroLayout: React.FC<PorteiroLayoutProps> = async ({ children }) => {
   const user = await getUser();
-
-  if (!user) {
-    return redirect("/");
-  }
+  if (user?.role === "relatorio") redirect("/");
   return <div>{children}</div>;
 };
 
-export default SiteLayout;
+export default PorteiroLayout;

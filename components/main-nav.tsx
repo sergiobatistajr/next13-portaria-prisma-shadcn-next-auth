@@ -1,33 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
+interface MainNavProps {
+  routes: {
+    href: string;
+    label: string;
+    active: boolean;
+  }[];
+  className?: string;
+}
+
 export const MainNav = ({
+  routes,
   className,
   ...props
-}: React.HTMLAttributes<HTMLElement>) => {
-  const pathname = usePathname();
-
-  const routes = [
-    {
-      href: "/",
-      label: "Home",
-      active: pathname === "/",
-    },
-    {
-      href: "/portaria",
-      label: "Portaria",
-      active: pathname === "/portaria",
-    },
-    {
-      href: "/admin",
-      label: "Admin",
-      active: pathname === "/admin",
-    },
-  ];
+}: MainNavProps & React.HTMLAttributes<HTMLElement>) => {
   return (
     <nav
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}

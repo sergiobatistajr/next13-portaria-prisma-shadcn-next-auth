@@ -1,17 +1,14 @@
 import { redirect } from "next/navigation";
 
 import getUser from "@/app/actions/getCurrentUser";
-interface SiteLayoutProps {
+
+interface AdminLayoutProps {
   children: React.ReactNode;
 }
-
-const SiteLayout: React.FC<SiteLayoutProps> = async ({ children }) => {
+const AdminLayout: React.FC<AdminLayoutProps> = async ({ children }) => {
   const user = await getUser();
-
-  if (!user) {
-    return redirect("/");
-  }
+  if (user?.role !== "admin") redirect("/");
   return <div>{children}</div>;
 };
 
-export default SiteLayout;
+export default AdminLayout;

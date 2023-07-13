@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 
 import getUser from "@/app/actions/getCurrentUser";
 import Login from "@/components/login";
+import ToastProvider from "@/providers/toast-provider";
+import Navbar from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +23,15 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {user ? <div>{children}</div> : <Login />}
+        <ToastProvider />
+        {user ? (
+          <div>
+            <Navbar user={user} />
+            {children}
+          </div>
+        ) : (
+          <Login />
+        )}
       </body>
     </html>
   );

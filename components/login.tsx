@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -38,24 +39,20 @@ const Login = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    console.log(values);
     signIn("credentials", {
       ...values,
       redirect: false,
     }).then((callback) => {
-      setIsLoading(false);
-
       if (callback?.ok) {
-        console.log(callback);
-
+        toast.success("Login efetuado com sucesso");
         router.refresh();
       }
 
       if (callback?.error) {
-        console.log(callback);
+        toast.error("Usuário ou senha incorretos");
       }
     });
-
+    setIsLoading(false);
     router.refresh();
   }
 
@@ -84,9 +81,6 @@ const Login = () => {
                 <FormControl>
                   <Input placeholder="Sérgio" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -98,15 +92,18 @@ const Login = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="*****" {...field} />
+                  <Input type="password" placeholder="******" {...field} />
                 </FormControl>
-                <FormDescription>This is your password.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button disabled={isLoading} type="submit">
-            Submit
+          <Button
+            disabled={isLoading}
+            type="submit"
+            className="flex justify-left w-full"
+          >
+            Entrar
           </Button>
         </form>
       </Form>
