@@ -7,6 +7,9 @@ export async function GET(req: Request) {
       where: {
         isInside: true,
       },
+      orderBy: {
+        entryDate: "desc",
+      },
     });
 
     return NextResponse.json(insiders);

@@ -52,12 +52,12 @@ const GuestForm = () => {
       setIsLoading(true);
       await axios.post("/api/portaria", values);
       toast.success(`Visitante ${values.name} cadastrado com sucesso`);
-      router.refresh();
     } catch (error: any) {
       toast.error("Erro ao cadastrar visitante");
     } finally {
       setIsLoading(false);
       form.reset();
+      router.refresh();
     }
   }
 
