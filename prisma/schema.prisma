@@ -14,29 +14,31 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  username  String   @unique
-  password  String
-  isActive  Boolean  @default(true)
-  role      Role     @default(porteiro)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  guests    Guest[]
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  username       String   @unique
+  hashedPassword String
+  isActive       Boolean  @default(true)
+  role           Role     @default(porteiro)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  guests         Guest[]
 }
 
 model Guest {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   plate         String?
-  owner         String
+  name          String
   isInside      Boolean   @default(true)
   apartment     Int?
   observations  String?
   model         String?
   color         String?
   pax           Int?
-  entryTime     DateTime
-  exitTime      DateTime?
+  entryDate     DateTime
+  exitDate      DateTime?
+  entryHour     String
+  exitHour      String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   createdByUser User      @relation(fields: [userId], references: [id])

@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { name, username, role } = body;
+    const { name, username, role, password } = body;
 
     if (!currentUser) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -21,6 +21,10 @@ export async function POST(req: Request) {
 
     if (!username) {
       return new NextResponse("Username is required", { status: 400 });
+    }
+
+    if (!password) {
+      return new NextResponse("Password is required", { status: 400 });
     }
 
     if (!role) {
@@ -37,13 +41,13 @@ export async function POST(req: Request) {
       return new NextResponse("Username already exists", { status: 400 });
     }
 
-    const hashedPassword = await bcrypt.hash(body.password, 12);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await prismadb.user.create({
       data: {
         name,
         username,
-        password: hashedPassword,
+        hashedPassword,
         role,
       },
     });

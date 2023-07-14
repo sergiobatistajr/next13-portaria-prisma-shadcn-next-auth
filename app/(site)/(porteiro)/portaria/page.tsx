@@ -1,4 +1,6 @@
+import PortariaClient from "./components/client";
+
 const PortariaPage = () => {
-  return <div>Portaria Page</div>;
+  return <PortariaClient />;
 };
 export default PortariaPage;
