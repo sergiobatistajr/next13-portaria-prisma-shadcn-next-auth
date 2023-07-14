@@ -111,7 +111,11 @@ const CarForm = () => {
               <FormItem>
                 <FormLabel>Placa</FormLabel>
                 <FormControl>
-                  <Input placeholder="Placa do carro" {...field} />
+                  <Input
+                    placeholder="Placa do carro"
+                    {...field}
+                    value={field.value.toLocaleUpperCase()}
+                  />
                 </FormControl>
                 <FormDescription>Este é a placa do carro</FormDescription>
                 <FormMessage />
@@ -197,12 +201,12 @@ const CarForm = () => {
                 <FormControl>
                   <Input placeholder="Observação" {...field} />
                 </FormControl>
-                <FormDescription>Observação </FormDescription>
+                <FormDescription>Observação</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="col-span-1 md:col-span-3 flex justify-end">
+          <div className="col-span-1 md:col-span-3 flex justify-start">
             <Button disabled={isLoading} type="submit">
               Salvar
             </Button>

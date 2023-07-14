@@ -25,6 +25,7 @@ const PortariaClient: React.FC<PortariaClientProps> = ({ data }) => {
       ...item,
       plate: item.plate ? item.plate : "A pé",
       dataEntryTime: entryDate,
+      apartment: item.apartment ? item.apartment.toString() : "-",
     };
   });
 

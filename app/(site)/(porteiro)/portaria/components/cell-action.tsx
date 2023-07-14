@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import { InsidersColumn } from "./columns";
+import { Input } from "@/components/ui/input";
 
 interface CellActionProps {
   data: InsidersColumn;
@@ -19,7 +20,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   return (
     <>
       <Button variant="ghost" onClick={() => onCopy(data.id)}>
-        Copy
+        Saida
       </Button>
     </>
   );

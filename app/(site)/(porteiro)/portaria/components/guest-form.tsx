@@ -66,7 +66,7 @@ const GuestForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-4 mb-10"
+          className="md:grid md:grid-cols-4 gap-4 mb-10"
         >
           <FormField
             control={form.control}
@@ -124,7 +124,7 @@ const GuestForm = () => {
               </FormItem>
             )}
           />
-          <div className="col-span-2 flex justify-end">
+          <div className="md:col-span-1 flex justify-start">
             <Button disabled={isLoading} type="submit">
               Salvar
             </Button>
