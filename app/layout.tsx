@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import getUser from "@/app/actions/getCurrentUser";
+import getUser from "@/actions/getCurrentUser";
 import Login from "@/components/login";
 import ToastProvider from "@/providers/toast-provider";
 import Navbar from "@/components/navbar";

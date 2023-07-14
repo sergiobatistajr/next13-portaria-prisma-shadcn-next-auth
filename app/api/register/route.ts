@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
-import getUser from "@/app/actions/getCurrentUser";
+import getUser from "@/actions/getCurrentUser";
 import prismadb from "@/lib/prismadb";
 
 export async function POST(req: Request) {

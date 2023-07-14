@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import getUser from "@/app/actions/getCurrentUser";
+import getUser from "@/actions/getCurrentUser";
 interface SiteLayoutProps {
   children: React.ReactNode;
 }
