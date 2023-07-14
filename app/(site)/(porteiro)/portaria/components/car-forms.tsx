@@ -26,10 +26,15 @@ const formSchema = z.object({
   plate: z
     .string()
     .nonempty({ message: "A placa é obrigatória" })
-    .refine(validateMercosul),
+    .refine(validateMercosul, {
+      message: "Placa inválida no padrão Mercosul",
+    }),
   observations: z.string().optional(),
-  model: z.string().optional(),
-  pax: z.coerce.number().int().positive(),
+  model: z.string().nonempty({ message: "O modelo é obrigatório" }),
+  pax: z.coerce
+    .number()
+    .int()
+    .positive({ message: "O número de passageiros deve ser no mínimo 1" }),
   apartment: z.coerce
     .number()
     .refine(validateApartment, {
@@ -83,7 +88,7 @@ const CarForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-3 gap-4 mb-10"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10"
         >
           <FormField
             control={form.control}
@@ -197,7 +202,7 @@ const CarForm = () => {
               </FormItem>
             )}
           />
-          <div className="col-span-3 flex justify-end">
+          <div className="col-span-1 md:col-span-3 flex justify-end">
             <Button disabled={isLoading} type="submit">
               Salvar
             </Button>
