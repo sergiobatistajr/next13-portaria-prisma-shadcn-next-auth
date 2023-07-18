@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -37,23 +36,42 @@ const Login = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-    signIn("credentials", {
-      ...values,
-      redirect: false,
-    }).then((callback) => {
-      if (callback?.ok) {
-        toast.success("Login efetuado com sucesso");
-        router.refresh();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // try {
+    //   setIsLoading(true);
+    //   signIn("credentials", {
+    //     ...values,
+    //     redirect: false,
+    //   }).then((callback) => {
+    //     if (callback?.ok) {
+    //       toast.success("Login efetuado com sucesso");
+    //       router.refresh();
+    //     }
+    //     if (callback?.error) {
+    //       toast.error("Usuário ou senha incorretos");
+    //     }
+    //   });
+    // } catch (error) {
+    //   toast.error("Usuário ou senha incorretos");
+    // } finally {
+    //   setIsLoading(false);
+    // }
+    try {
+      setIsLoading(true);
+      const result = await signIn("credentials", {
+        ...values,
+        redirect: false,
+      });
+      if (!result?.ok) {
+        return toast.error("Usuário ou senha incorretos");
       }
-
-      if (callback?.error) {
-        toast.error("Usuário ou senha incorretos");
-      }
-    });
-    setIsLoading(false);
-    router.refresh();
+      toast.success("Login efetuado com sucesso");
+      router.refresh();
+    } catch (error) {
+      toast.error("Algo deu errado");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -65,11 +83,7 @@ const Login = () => {
   }
 
   return (
-    <div
-      className={`
-        flex flex-col items-center justify-center mt-20
-    `}
-    >
+    <div className="flex flex-col items-center justify-center mt-20">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
