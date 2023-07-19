@@ -37,25 +37,6 @@ const Login = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // try {
-    //   setIsLoading(true);
-    //   signIn("credentials", {
-    //     ...values,
-    //     redirect: false,
-    //   }).then((callback) => {
-    //     if (callback?.ok) {
-    //       toast.success("Login efetuado com sucesso");
-    //       router.refresh();
-    //     }
-    //     if (callback?.error) {
-    //       toast.error("Usuário ou senha incorretos");
-    //     }
-    //   });
-    // } catch (error) {
-    //   toast.error("Usuário ou senha incorretos");
-    // } finally {
-    //   setIsLoading(false);
-    // }
     try {
       setIsLoading(true);
       const result = await signIn("credentials", {
