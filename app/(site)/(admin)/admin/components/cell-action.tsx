@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, MoreHorizontal } from "lucide-react";
+import { ClipboardEdit, Cog, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -30,9 +30,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
+          <DropdownMenuItem onClick={() => router.push(`/admin/${data.id}`)}>
+            <ClipboardEdit className="h-4 w-4 mr-2" />
+            Editar
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => {}}>
-            <Calendar className="h-4 w-4 mr-2" />
-            Atualizar
+            <Cog className="h-4 w-4 mr-2" />
+            Resetar senha
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
