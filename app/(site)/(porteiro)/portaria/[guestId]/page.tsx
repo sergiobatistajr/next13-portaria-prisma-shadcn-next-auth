@@ -9,7 +9,6 @@ const GuestPage = async ({ params }: { params: { guestId: string } }) => {
       where: { id: params.guestId },
     });
     return <ExitGuestForm initialData={guest!} />;
-    return <>opa</>;
   } catch {
     return <GuestForm />;
   }
