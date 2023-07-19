@@ -72,7 +72,7 @@ const Login = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Usuário</FormLabel>
                 <FormControl>
                   <Input placeholder="Sérgio" {...field} />
                 </FormControl>
@@ -85,7 +85,7 @@ const Login = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Senha</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="******" {...field} />
                 </FormControl>
