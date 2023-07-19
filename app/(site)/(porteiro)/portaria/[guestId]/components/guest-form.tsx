@@ -32,31 +32,72 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 
-const formSchema = z.object({
-  plate: z
-    .string()
-    .refine(validateMercosul, {
-      message: "Placa inválida no padrão Mercosul",
-    })
-    .optional(),
-  observations: z.string().optional(),
-  model: z.string().optional(),
-  pax: z.coerce.number().int().optional(),
-  apartment: z.coerce
-    .number()
-    .refine(validateApartment, {
-      message: "Apartamento inválido",
-    })
-    .optional(),
-  name: z
-    .string()
-    .nonempty({ message: "O nome do proprietário é obrigatório" }),
+const formSchema = z
+  .object({
+    plate: z
+      .string()
+      .refine(validateMercosul, {
+        message: "Placa inválida no padrão Mercosul",
+      })
+      .optional(),
+    observations: z.string().optional(),
+    model: z.string().optional(),
+    pax: z.coerce.number().int().optional(),
+    apartment: z.coerce
+      .number()
+      .refine(validateApartment, {
+        message: "Apartamento inválido",
+      })
+      .optional(),
+    name: z
+      .string()
+      .nonempty({ message: "O nome do proprietário é obrigatório" }),
 
-  entryDate: z.date(),
-  entryHour: z
-    .string()
-    .nonempty({ message: "A hora de entrada é obrigatória" }),
-});
+    entryDate: z.date(),
+    entryHour: z
+      .string()
+      .nonempty({ message: "A hora de entrada é obrigatória" }),
+  })
+  .refine(
+    (data) => {
+      if (data.model && !data.plate) {
+        return false;
+      }
+      return true;
+    },
+    {
+      params: ["plate", "model"],
+      message: "Modelo só pode ser preenchido se a placa for preenchida",
+      path: ["plate"],
+    }
+  )
+  .refine(
+    (value) => {
+      if (value.plate && !value.pax) {
+        return false;
+      }
+      return true;
+    },
+    {
+      params: ["plate", "pax"],
+      message: "Número de passageiros é obrigatório se a placa for preenchida",
+      path: ["pax"],
+    }
+  )
+  .refine(
+    (value) => {
+      if (value.pax && !value.plate) {
+        return false;
+      }
+      return true;
+    },
+    {
+      params: ["plate", "pax"],
+      message:
+        "Número de passageiros só pode ser preenchido se a placa for preenchida",
+      path: ["plate"],
+    }
+  );
 
 const GuestForm = () => {
   const [isLoading, setIsLoading] = useState(false);
