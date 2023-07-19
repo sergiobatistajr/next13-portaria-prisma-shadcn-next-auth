@@ -8,7 +8,7 @@ import ToastProvider from "@/providers/toast-provider";
 import Navbar from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
-export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Portaria",
   description: "Portaria app",
