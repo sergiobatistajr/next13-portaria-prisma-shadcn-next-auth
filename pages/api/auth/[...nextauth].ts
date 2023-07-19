@@ -43,6 +43,9 @@ export const authOptions: AuthOptions = {
             username: credentials.username,
           },
         });
+        if (!user?.isActive) {
+          throw new Error("User is not active");
+        }
 
         if (!user || !user?.hashedPassword) {
           throw new Error("Invalid credentials");
