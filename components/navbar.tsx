@@ -25,18 +25,19 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
       label: "Portaria",
       active: pathname === "/portaria",
     });
-  if (user.role === "admin")
-    routes.push({
-      href: "/admin",
-      label: "Dashboard",
-      active: pathname === "/admin",
-    });
 
   routes.push({
     href: "/report",
     label: "Relatório",
     active: pathname === "/report",
   });
+
+  if (user.role === "admin")
+    routes.push({
+      href: "/admin",
+      label: "Configurações",
+      active: pathname === "/admin",
+    });
 
   return (
     <div className="border-b">

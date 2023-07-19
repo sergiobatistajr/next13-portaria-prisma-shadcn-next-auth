@@ -72,6 +72,19 @@ const formSchema = z
     }
   )
   .refine(
+    (data) => {
+      if (data.plate && !data.model) {
+        return false;
+      }
+      return true;
+    },
+    {
+      params: ["plate", "model"],
+      message: "Modelo é obrigatório se a placa for preenchida",
+      path: ["model"],
+    }
+  )
+  .refine(
     (value) => {
       if (value.plate && !value.pax) {
         return false;
