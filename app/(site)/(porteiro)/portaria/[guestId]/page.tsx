@@ -8,7 +8,7 @@ const GuestPage = async ({ params }: { params: { guestId: string } }) => {
     const guest = await prismadb.guest.findUnique({
       where: { id: params.guestId },
     });
-    // return <ExitGuestForm initialData={guest!} />;
+    return <ExitGuestForm initialData={guest!} />;
     return <>opa</>;
   } catch {
     return <GuestForm />;

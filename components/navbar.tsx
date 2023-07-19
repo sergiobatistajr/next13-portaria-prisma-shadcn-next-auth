@@ -26,18 +26,11 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
       active: pathname === "/portaria",
     });
   if (user.role === "admin")
-    routes.push(
-      {
-        href: "/admin",
-        label: "Usuários",
-        active: pathname === "/admin",
-      },
-      {
-        href: "/register",
-        label: "Registrar",
-        active: pathname === "/register",
-      }
-    );
+    routes.push({
+      href: "/admin",
+      label: "Dashboard",
+      active: pathname === "/admin",
+    });
 
   routes.push({
     href: "/report",

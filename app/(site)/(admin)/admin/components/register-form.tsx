@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 
 import { Button } from "@/components/ui/button";
@@ -25,7 +26,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { toast } from "react-hot-toast";
 
 const roles = ["admin", "porteiro", "relatorio"];
 
@@ -71,12 +71,9 @@ const Register = () => {
   }
 
   return (
-    <div className="flex items-center justify-normal mt-6">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 mb-10"
-        >
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="pt-5 md:grid md:grid-cols-4 gap-4 mb-10">
           <FormField
             control={form.control}
             name="name"
@@ -161,12 +158,14 @@ const Register = () => {
               </FormItem>
             )}
           />
+        </div>
+        <div className="space-x-2 flex items-center justify-start w-full">
           <Button disabled={isLoading} type="submit">
             Cadastar
           </Button>
-        </form>
-      </Form>
-    </div>
+        </div>
+      </form>
+    </Form>
   );
 };
 

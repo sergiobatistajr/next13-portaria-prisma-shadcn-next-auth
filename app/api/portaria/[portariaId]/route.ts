@@ -11,12 +11,21 @@ export async function PATCH(
     const currentUser = await getUser();
     const body = await req.json();
 
-    const { exitDate, exitHour } = body;
+    const { name, entryDate, entryHour, exitDate, exitHour } = body;
 
     if (!currentUser) {
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
+    if (!name) {
+      return new NextResponse("Name is required", { status: 400 });
+    }
+    if (!entryDate) {
+      return new NextResponse("entryDate is required", { status: 400 });
+    }
+    if (!entryHour) {
+      return new NextResponse("entryHour is required", { status: 400 });
+    }
     if (!exitDate) {
       return new NextResponse("exitDate is required", { status: 400 });
     }
@@ -34,6 +43,9 @@ export async function PATCH(
         id: params.portariaId,
       },
       data: {
+        name,
+        entryDate: new Date(entryDate),
+        entryHour,
         exitDate: new Date(exitDate),
         exitHour,
         isInside: false,

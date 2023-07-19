@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -25,7 +25,6 @@ import Container from "@/components/ui/container";
 import { validateApartment } from "@/validators/apartment";
 import { validateMercosul } from "@/validators/mercosul";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -120,7 +119,7 @@ const GuestForm = () => {
               name="entryDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Data de entrada</FormLabel>
+                  <FormLabel>Data da entrada</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -159,7 +158,7 @@ const GuestForm = () => {
               name="entryHour"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Data de entrada</FormLabel>
+                  <FormLabel>Hora da entrada</FormLabel>
                   <FormControl>
                     <Input type="time" {...field} />
                   </FormControl>
