@@ -12,54 +12,33 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ user }) => {
   const pathname = usePathname();
+
   const routes = [
     {
       href: "/",
       label: "Home",
       active: pathname === "/",
     },
-    {
+  ];
+  if (user.role === "porteiro" || user.role === "admin")
+    routes.push({
       href: "/portaria",
       label: "Portaria",
       active: pathname === "/portaria",
-    },
-    {
-      href: "/report",
-      label: "Relatório",
-      active: pathname === "/report",
-    },
-    {
+    });
+
+  routes.push({
+    href: "/report",
+    label: "Relatório",
+    active: pathname === "/report",
+  });
+
+  if (user.role === "admin")
+    routes.push({
       href: "/admin",
       label: "Configurações",
       active: pathname === "/admin",
-    },
-  ];
-  // const routes = [
-  //   {
-  //     href: "/",
-  //     label: "Home",
-  //     active: pathname === "/",
-  //   },
-  // ];
-  // if (user.role === "porteiro" || user.role === "admin")
-  //   routes.push({
-  //     href: "/portaria",
-  //     label: "Portaria",
-  //     active: pathname === "/portaria",
-  //   });
-
-  // routes.push({
-  //   href: "/report",
-  //   label: "Relatório",
-  //   active: pathname === "/report",
-  // });
-
-  // if (user.role === "admin")
-  //   routes.push({
-  //     href: "/admin",
-  //     label: "Configurações",
-  //     active: pathname === "/admin",
-  //   });
+    });
 
   return (
     <div className="border-b">
