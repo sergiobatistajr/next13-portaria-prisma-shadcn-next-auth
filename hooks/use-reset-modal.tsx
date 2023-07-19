@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-type ModalState = {
+type ResetModalState = {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 };
 
-export const useModal = create<ModalState>((set) => ({
+export const useResetModal = create<ResetModalState>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
