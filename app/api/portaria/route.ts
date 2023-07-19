@@ -55,3 +55,18 @@ export async function POST(req: Request) {
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const guests = await prismadb.guest.findMany({
+      orderBy: {
+        entryDate: "desc",
+      },
+    });
+
+    return NextResponse.json(guests);
+  } catch (error) {
+    console.log("[PORTARIA_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
