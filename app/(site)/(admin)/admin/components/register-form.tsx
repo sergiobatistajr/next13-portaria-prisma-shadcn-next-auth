@@ -154,6 +154,7 @@ const Register = () => {
                 <FormControl>
                   <Input type="password" placeholder="******" {...field} />
                 </FormControl>
+                <FormDescription>Confirme sua senha</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
