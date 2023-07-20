@@ -43,11 +43,13 @@ const Login = () => {
         ...values,
         redirect: false,
       });
-      if (!result?.ok) {
+      if (result?.error) {
         return toast.error("Usuário ou senha incorretos");
       }
-      toast.success("Login efetuado com sucesso");
-      router.refresh();
+      if (result?.ok) {
+        toast.success("Login efetuado com sucesso");
+        return router.refresh();
+      }
     } catch (error) {
       toast.error("Algo deu errado");
     } finally {
