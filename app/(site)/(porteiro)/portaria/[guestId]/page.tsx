@@ -1,17 +1,15 @@
-import prismadb from "@/lib/prismadb";
-
-import GuestForm from "./components/guest-form";
+import getGuestById from "@/actions/getGuestById";
 import ExitGuestForm from "./components/exit-guest-form";
+import GuestForm from "./components/guest-form";
 
 const GuestPage = async ({ params }: { params: { guestId: string } }) => {
-  try {
-    const guest = await prismadb.guest.findUnique({
-      where: { id: params.guestId },
-    });
-    return <ExitGuestForm initialData={guest!} />;
-  } catch {
-    return <GuestForm />;
+  const guest = await getGuestById(params.guestId);
+
+  if (guest) {
+    return <ExitGuestForm initialData={guest} />;
   }
+
+  return <GuestForm />;
 };
 
 export default GuestPage;

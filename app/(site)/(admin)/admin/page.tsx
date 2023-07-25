@@ -1,10 +1,10 @@
 import Container from "@/components/ui/container";
 import Register from "./components/register-form";
 import ClientAdmin from "./components/client";
-import prismadb from "@/lib/prismadb";
+import getUsers from "@/actions/getUsers";
 
 const AdminPage = async () => {
-  const users = await prismadb.user.findMany();
+  const users = await getUsers();
   return (
     <Container>
       <Register />
