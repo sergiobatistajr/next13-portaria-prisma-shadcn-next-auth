@@ -244,7 +244,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-            {initialData.plate && (
+            {initialData.plate ? (
               <FormField
                 control={form.control}
                 name="plate"
@@ -259,8 +259,8 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   </FormItem>
                 )}
               />
-            )}
-            {initialData.model && (
+            ) : null}
+            {initialData.model ? (
               <FormField
                 control={form.control}
                 name="model"
@@ -275,8 +275,8 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   </FormItem>
                 )}
               />
-            )}
-            {initialData.pax && (
+            ) : null}
+            {initialData.pax ? (
               <FormField
                 control={form.control}
                 name="pax"
@@ -291,8 +291,8 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   </FormItem>
                 )}
               />
-            )}
-            {initialData.apartment && (
+            ) : null}
+            {initialData.apartment ? (
               <FormField
                 control={form.control}
                 name="apartment"
@@ -307,7 +307,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   </FormItem>
                 )}
               />
-            )}
+            ) : null}
             <FormField
               control={form.control}
               name="entryHour"
