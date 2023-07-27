@@ -33,7 +33,6 @@ model Guest {
   apartment     Int?
   observations  String?
   model         String?
-  color         String?
   pax           Int?
   entryDate     DateTime
   exitDate      DateTime?

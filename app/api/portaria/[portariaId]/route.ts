@@ -11,7 +11,17 @@ export async function PATCH(
     const currentUser = await getUser();
     const body = await req.json();
 
-    const { name, entryDate, entryHour, exitDate, exitHour } = body;
+    const {
+      name,
+      entryDate,
+      entryHour,
+      exitDate,
+      exitHour,
+      plate,
+      model,
+      pax,
+      apartment,
+    } = body;
 
     if (!currentUser) {
       return new NextResponse("Unauthenticated", { status: 403 });
@@ -49,6 +59,10 @@ export async function PATCH(
         exitDate: new Date(exitDate),
         exitHour,
         isInside: false,
+        plate,
+        model,
+        pax,
+        apartment,
       },
     });
 

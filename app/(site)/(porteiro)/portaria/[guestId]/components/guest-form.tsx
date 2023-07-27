@@ -134,11 +134,11 @@ const GuestForm = () => {
     try {
       setIsLoading(true);
       await axios.post("/api/portaria", values);
-      toast.success(`Visitante ${values.name} cadastrado com sucesso`);
+      toast.success(`${values.name} cadastrado com sucesso`);
       router.refresh();
       router.push("/portaria");
     } catch (error: any) {
-      toast.error("Erro ao cadastrar visitante");
+      toast.error("Erro ao cadastrar");
     } finally {
       setIsLoading(false);
     }
@@ -200,9 +200,7 @@ const GuestForm = () => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>
-                    Data de entrada do visitante
-                  </FormDescription>
+                  <FormDescription>Data de entrada</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -216,9 +214,7 @@ const GuestForm = () => {
                   <FormControl>
                     <Input type="time" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Hora da entrada do visitante
-                  </FormDescription>
+                  <FormDescription>Hora da entrada</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -232,9 +228,7 @@ const GuestForm = () => {
                   <FormControl>
                     <Input placeholder="Observação" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Observação sobre o visitante
-                  </FormDescription>
+                  <FormDescription>Observação sobre a entrada</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -256,9 +250,7 @@ const GuestForm = () => {
                           }
                         />
                       </FormControl>
-                      <FormDescription>
-                        Placa do carro do visitante
-                      </FormDescription>
+                      <FormDescription>Placa do carro</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -272,9 +264,7 @@ const GuestForm = () => {
                       <FormControl>
                         <Input placeholder="Model do carro" {...field} />
                       </FormControl>
-                      <FormDescription>
-                        Modelo do carro do visitante
-                      </FormDescription>
+                      <FormDescription>Modelo do carro</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -288,9 +278,7 @@ const GuestForm = () => {
                       <FormControl>
                         <Input type="number" {...field} />
                       </FormControl>
-                      <FormDescription>
-                        Número de passantes do carro
-                      </FormDescription>
+                      <FormDescription>Número de passageiros</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -304,9 +292,7 @@ const GuestForm = () => {
                       <FormControl>
                         <Input type="number" {...field} />
                       </FormControl>
-                      <FormDescription>
-                        Número do apartamento do visitante
-                      </FormDescription>
+                      <FormDescription>Número do apartamento</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -315,8 +301,11 @@ const GuestForm = () => {
             )}
           </div>
           <div className="space-x-2 flex items-center justify-start w-full">
+            <Button variant="outline" onClick={() => router.back()}>
+              Voltar
+            </Button>
             <Button disabled={isLoading} type="submit">
-              Salvar
+              Entrar
             </Button>
           </div>
         </form>
