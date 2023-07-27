@@ -244,6 +244,20 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="entryHour"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data da entrada</FormLabel>
+                  <FormControl>
+                    <Input type="time" {...field} />
+                  </FormControl>
+                  <FormDescription>Hora da entrada</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             {initialData.plate ? (
               <FormField
                 control={form.control}
@@ -316,21 +330,6 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                 )}
               />
             ) : null}
-            <FormField
-              control={form.control}
-              name="entryHour"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data da entrada</FormLabel>
-                  <FormControl>
-                    <Input type="time" {...field} />
-                  </FormControl>
-                  <FormDescription>Hora da entrada</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="exitDate"
