@@ -51,15 +51,15 @@ const formSchema = z
       .refine(validateApartment, {
         message: "Apartamento inválido",
       })
-      .optional(),
+      .nullable(),
     plate: z
       .string()
       .refine(validateMercosul, {
         message: "Placa inválida no padrão Mercosul",
       })
-      .optional(),
-    model: z.string().optional(),
-    pax: z.coerce.number().int().optional(),
+      .nullable(),
+    model: z.string().nullable(),
+    pax: z.coerce.number().int().nullable(),
   })
   .refine(
     (data) => {
@@ -148,12 +148,12 @@ interface ExitGuestFormProps {
   initialData: {
     id: string;
     name: string;
-    plate?: string;
+    plate: string | null;
     entryDate: Date;
     entryHour: string;
-    model?: string;
-    pax?: number;
-    apartment?: number;
+    model: string | null;
+    pax: number | null;
+    apartment: number | null;
   };
 }
 
@@ -252,7 +252,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Placa</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} value={field.value ?? ""} />
                     </FormControl>
                     <FormDescription>Placa do carro</FormDescription>
                     <FormMessage />
@@ -268,7 +268,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Model</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} value={field.value ?? ""} />
                     </FormControl>
                     <FormDescription>Modelo do carro</FormDescription>
                     <FormMessage />
@@ -284,7 +284,11 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Passante</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value ?? ""}
+                      />
                     </FormControl>
                     <FormDescription>Número de passageiros</FormDescription>
                     <FormMessage />
@@ -300,7 +304,11 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Apartamento</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value ?? ""}
+                      />
                     </FormControl>
                     <FormDescription>Número do apartamento</FormDescription>
                     <FormMessage />
