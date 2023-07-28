@@ -243,14 +243,14 @@ const GuestForm = () => {
                       <FormLabel>Placa</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Placa do carro"
+                          placeholder="Veículo"
                           {...field}
                           onChange={(e) =>
                             field.onChange(e.target.value.toUpperCase())
                           }
                         />
                       </FormControl>
-                      <FormDescription>Placa do carro</FormDescription>
+                      <FormDescription>Placa do veículo</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -260,11 +260,11 @@ const GuestForm = () => {
                   name="model"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Model</FormLabel>
+                      <FormLabel>Modelo</FormLabel>
                       <FormControl>
-                        <Input placeholder="Model do carro" {...field} />
+                        <Input placeholder="Modelo" {...field} />
                       </FormControl>
-                      <FormDescription>Modelo do carro</FormDescription>
+                      <FormDescription>Modelo do veículo</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

@@ -268,7 +268,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                     <FormControl>
                       <Input {...field} value={field.value ?? ""} />
                     </FormControl>
-                    <FormDescription>Placa do carro</FormDescription>
+                    <FormDescription>Placa do veículo</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -280,11 +280,11 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                 name="model"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Model</FormLabel>
+                    <FormLabel>Modelo</FormLabel>
                     <FormControl>
                       <Input {...field} value={field.value ?? ""} />
                     </FormControl>
-                    <FormDescription>Modelo do carro</FormDescription>
+                    <FormDescription>Modelo do veículo</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
