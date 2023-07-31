@@ -7,7 +7,7 @@ import { MainNav } from "@/components/main-nav";
 import { Button } from "./ui/button";
 
 interface NavbarProps {
-  user: User;
+  user: Pick<User, "name" | "role">;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ user }) => {

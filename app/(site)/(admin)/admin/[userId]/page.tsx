@@ -1,5 +1,4 @@
-import prismadb from "@/lib/prismadb";
-import EditUser from "./components/edit-user-form";
+import EditUser from "./_components/edit-user-form";
 import getUserById from "@/actions/getUserById";
 
 const UserPage = async ({

@@ -1,6 +1,6 @@
 import Container from "@/components/ui/container";
-import Register from "./components/register-form";
-import ClientAdmin from "./components/client";
+import Register from "./_components/register-form";
+import ClientAdmin from "./_components/client";
 import getUsers from "@/actions/getUsers";
 
 const AdminPage = async () => {
