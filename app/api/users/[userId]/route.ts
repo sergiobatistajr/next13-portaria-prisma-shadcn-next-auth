@@ -11,7 +11,7 @@ export async function PATCH(
   try {
     const currentUser = await getUser();
     const body = await req.json();
-    const { name, username, password, isActive, role } = body;
+    const { name, username, password, confirmPassword, isActive, role } = body;
 
     if (!currentUser) {
       return new NextResponse("Unauthenticated", { status: 403 });
@@ -21,7 +21,7 @@ export async function PATCH(
       return new NextResponse("User id is required", { status: 400 });
     }
 
-    if (password) {
+    if (password && confirmPassword) {
       const hashedPassword = await bcrypt.hash(password, 12);
       const user = await prismadb.user.update({
         where: { id: params.userId },
