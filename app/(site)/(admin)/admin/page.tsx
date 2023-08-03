@@ -1,7 +1,7 @@
 import Container from "@/components/ui/container";
 import Register from "./_components/register-form";
 import ClientAdmin from "./_components/client";
-import getUsers from "@/actions/getUsers";
+import { getUsers } from "@/actions/getUsers";
 
 const AdminPage = async () => {
   const users = await getUsers();

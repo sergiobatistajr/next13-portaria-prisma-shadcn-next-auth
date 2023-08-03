@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import getUser from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 import Login from "@/components/login";
 import ToastProvider from "@/providers/toast-provider";
 import Navbar from "@/components/navbar";
@@ -19,7 +19,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getUser();
+  const user = await getCurrentUser();
   return (
     <html lang="en">
       <body className={inter.className}>

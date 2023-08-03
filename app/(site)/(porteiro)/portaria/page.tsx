@@ -1,4 +1,4 @@
-import getInsiders from "@/actions/getInsiders";
+import { getInsiders } from "@/actions/getInsiders";
 import PortariaClient from "./_components/client";
 
 const PortariaPage = async () => {

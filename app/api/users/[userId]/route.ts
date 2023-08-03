@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 import bcrypt from "bcrypt";
 
-import getUser from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
 export async function GET(
   req: Request,
@@ -24,7 +24,7 @@ export async function PATCH(
   { params }: { params: { userId: string } }
 ) {
   try {
-    const currentUser = await getUser();
+    const currentUser = await getCurrentUser();
     const body = await req.json();
     const { name, username, password, confirmPassword, isActive, role } = body;
 

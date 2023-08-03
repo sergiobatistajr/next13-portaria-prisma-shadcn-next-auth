@@ -1,6 +1,8 @@
 import { Guest } from "@prisma/client";
+
 const URL = `${process.env.NEXT_PUBLIC_API}/api/portaria/insiders`;
-const getInsiders = async (): Promise<Guest[] | null> => {
+
+export const getInsiders = async (): Promise<Guest[] | null> => {
   try {
     const insiders = await fetch(URL, {
       cache: "no-cache",
@@ -10,5 +12,3 @@ const getInsiders = async (): Promise<Guest[] | null> => {
     return null;
   }
 };
-
-export default getInsiders;

@@ -1,7 +1,8 @@
 import { Guest } from "@prisma/client";
 
 const URL = `${process.env.NEXT_PUBLIC_API}/api/portaria`;
-const getGuestsById = async (id: string): Promise<Guest | null> => {
+
+export const getGuestById = async (id: string): Promise<Guest | null> => {
   try {
     if (id === "new") {
       return null;
@@ -15,5 +16,3 @@ const getGuestsById = async (id: string): Promise<Guest | null> => {
     return null;
   }
 };
-
-export default getGuestsById;
