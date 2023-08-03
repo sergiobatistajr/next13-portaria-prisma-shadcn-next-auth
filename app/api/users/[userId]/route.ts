@@ -2,14 +2,29 @@ import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 import bcrypt from "bcrypt";
 
-import getUser from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+
+export async function GET(
+  req: Request,
+  { params }: { params: { userId: string } }
+) {
+  try {
+    const user = await prismadb.user.findUnique({
+      where: { id: params.userId },
+    });
+    return NextResponse.json(user);
+  } catch (error) {
+    console.log("[USER_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
 
 export async function PATCH(
   req: Request,
   { params }: { params: { userId: string } }
 ) {
   try {
-    const currentUser = await getUser();
+    const currentUser = await getCurrentUser();
     const body = await req.json();
     const { name, username, password, confirmPassword, isActive, role } = body;
 

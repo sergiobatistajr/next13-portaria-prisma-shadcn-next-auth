@@ -1,15 +1,15 @@
-import prismadb from "@/lib/prismadb";
+import { User } from "@prisma/client";
 
-const getUserById = async (id: string) => {
+const URL = `${process.env.NEXT_PUBLIC_API}/api/users`;
+
+export const getUserById = async (id: string): Promise<User | null> => {
   try {
-    const user = await prismadb.user.findUnique({
-      where: { id: id },
+    const url = `${URL}/${id}`;
+    const user = await fetch(url, {
+      cache: "no-cache",
     });
-
-    return user;
+    return user.json();
   } catch {
     return null;
   }
 };
-
-export default getUserById;

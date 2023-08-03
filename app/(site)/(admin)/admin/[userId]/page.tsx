@@ -1,5 +1,5 @@
 import EditUser from "./_components/edit-user-form";
-import getUserById from "@/actions/getUserById";
+import { getUserById } from "@/actions/getUserById";
 
 const UserPage = async ({
   params,
