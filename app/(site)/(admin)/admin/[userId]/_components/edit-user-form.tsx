@@ -54,11 +54,13 @@ const formSchema = z
     }
   );
 interface EditUserFormProps {
-  initialValues:
-    | Pick<User, "id" | "name" | "username" | "role" | "isActive"> & {
-        password?: string;
-        confirmPassword?: string;
-      };
+  initialValues: Pick<
+    User,
+    "id" | "name" | "username" | "role" | "isActive"
+  > & {
+    password?: string;
+    confirmPassword?: string;
+  };
 }
 
 const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
@@ -67,20 +69,18 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialValues
-      ? {
-          ...initialValues,
-          password: "",
-          confirmPassword: "",
-        }
-      : {
-          name: "",
-          username: "",
-          role: "relatorio",
-          isActive: true,
-          password: "",
-          confirmPassword: "",
-        },
+    defaultValues: {
+      ...initialValues,
+      password: "",
+      confirmPassword: "",
+    } || {
+      name: "",
+      username: "",
+      role: "relatorio",
+      isActive: true,
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
