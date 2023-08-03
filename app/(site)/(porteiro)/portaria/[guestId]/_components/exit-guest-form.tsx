@@ -162,17 +162,29 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      name: "",
-      entryDate: new Date(),
-      entryHour: "",
-      exitDate: new Date(),
-      exitHour: "",
-      plate: "",
-      model: "",
-      pax: 0,
-      apartment: 0,
-    },
+    defaultValues: initialData
+      ? {
+          name: initialData.name,
+          entryDate: new Date(initialData.entryDate),
+          entryHour: initialData.entryHour,
+          exitDate: new Date(),
+          exitHour: format(new Date(), "HH:mm"),
+          plate: initialData.plate,
+          model: initialData.model,
+          pax: initialData.pax,
+          apartment: initialData.apartment,
+        }
+      : {
+          name: "",
+          entryDate: new Date(),
+          entryHour: "",
+          exitDate: new Date(),
+          exitHour: "",
+          plate: "",
+          model: "",
+          pax: 0,
+          apartment: 0,
+        },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {

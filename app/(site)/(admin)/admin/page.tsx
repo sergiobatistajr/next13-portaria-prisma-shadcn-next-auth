@@ -9,7 +9,7 @@ const AdminPage = async () => {
     <Container>
       <Register />
       <hr className="mt-5 mb-5" />
-      <ClientAdmin data={users} />
+      <ClientAdmin data={users ?? []} />
     </Container>
   );
 };

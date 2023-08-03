@@ -4,6 +4,21 @@ import bcrypt from "bcrypt";
 
 import getUser from "@/actions/getCurrentUser";
 
+export async function GET(
+  req: Request,
+  { params }: { params: { userId: string } }
+) {
+  try {
+    const user = await prismadb.user.findUnique({
+      where: { id: params.userId },
+    });
+    return NextResponse.json(user);
+  } catch (error) {
+    console.log("[USER_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
+
 export async function PATCH(
   req: Request,
   { params }: { params: { userId: string } }

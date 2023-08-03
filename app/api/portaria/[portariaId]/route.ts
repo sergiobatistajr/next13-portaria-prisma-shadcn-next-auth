@@ -3,6 +3,24 @@ import prismadb from "@/lib/prismadb";
 
 import getUser from "@/actions/getCurrentUser";
 
+export async function GET(
+  req: Request,
+  { params }: { params: { portariaId: string } }
+) {
+  try {
+    const guest = await prismadb.guest.findFirst({
+      where: {
+        id: params.portariaId,
+      },
+    });
+
+    return NextResponse.json(guest);
+  } catch (error) {
+    console.log("[GUEST_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
+
 export async function PATCH(
   req: Request,
   { params }: { params: { portariaId: string } }

@@ -7,13 +7,9 @@ import prisma from "@/lib/prismadb";
 declare module "next-auth" {
   interface User {
     id: string;
-    role: string;
-    username: string;
   }
   interface JWT {
     id: string;
-    role: string;
-    username: string;
   }
   interface Session extends DefaultSession {
     user: {
@@ -75,8 +71,6 @@ export const authOptions: AuthOptions = {
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
-        token.username = user.username;
       }
       return token;
     },
@@ -85,8 +79,6 @@ export const authOptions: AuthOptions = {
       user: {
         ...session.user,
         id: token.id,
-        role: token.role,
-        username: token.username,
       },
     }),
   },
