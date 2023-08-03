@@ -126,7 +126,7 @@ const GuestForm = () => {
       model: "",
       pax: 0,
       entryDate: new Date(),
-      entryHour: format(new Date(), "HH:mm"),
+      entryHour: "",
     },
   });
 

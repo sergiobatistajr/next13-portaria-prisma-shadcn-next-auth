@@ -9,7 +9,7 @@ import { columns } from "./columns";
 import { Button } from "@/components/ui/button";
 import { exportToExcel, cn } from "@/lib/utils";
 interface ClientReportProps {
-  data: Guest[] | [];
+  data: Guest[];
   user: {
     name: string;
     role: string;

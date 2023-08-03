@@ -1,4 +1,4 @@
-import { getGuestById } from "@/actions/getGuestById";
+import getGuestById from "@/actions/getGuestById";
 import ExitGuestForm from "./_components/exit-guest-form";
 import GuestForm from "./_components/guest-form";
 

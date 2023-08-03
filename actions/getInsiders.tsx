@@ -1,14 +1,13 @@
-import { Guest } from "@prisma/client";
+import prismadb from "@/lib/prismadb";
 
-const URL = `${process.env.NEXT_PUBLIC_API}/api/portaria/insiders`;
+const getInsiders = async () => {
+  const insiders = await prismadb.guest.findMany({
+    where: {
+      isInside: true,
+    },
+  });
 
-export const getInsiders = async (): Promise<Guest[] | null> => {
-  try {
-    const insiders = await fetch(URL, {
-      cache: "no-cache",
-    });
-    return insiders.json();
-  } catch {
-    return null;
-  }
+  return insiders;
 };
+
+export default getInsiders;

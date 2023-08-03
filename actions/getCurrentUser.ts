@@ -1,15 +1,14 @@
 import { getServerSession } from "next-auth/next";
 
-import { User } from "@prisma/client";
-
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getUserById } from "./getUserById";
+import prisma from "@/lib/prismadb";
+import { User } from "@prisma/client";
 
 export async function getSession() {
   return await getServerSession(authOptions);
 }
 
-export async function getCurrentUser(): Promise<Pick<
+export default async function getCurrentUser(): Promise<Pick<
   User,
   "id" | "name" | "role" | "username"
 > | null> {
@@ -20,7 +19,11 @@ export async function getCurrentUser(): Promise<Pick<
       return null;
     }
 
-    const currentUser = await getUserById(session.user.id);
+    const currentUser = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
 
     if (!currentUser) {
       return null;

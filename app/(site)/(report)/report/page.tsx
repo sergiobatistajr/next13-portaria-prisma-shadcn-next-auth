@@ -1,12 +1,11 @@
-import { getGuests } from "@/actions/getGuests";
+import getGuests from "@/actions/getGuests";
 import ClientReport from "./_components/client";
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import getUser from "@/actions/getCurrentUser";
 
 const ReportPage = async () => {
-  const user = await getCurrentUser();
+  const user = await getUser();
   const guests = await getGuests();
-
-  return <ClientReport data={guests ?? []} user={user} />;
+  return <ClientReport data={guests} user={user} />;
 };
 
 export default ReportPage;
