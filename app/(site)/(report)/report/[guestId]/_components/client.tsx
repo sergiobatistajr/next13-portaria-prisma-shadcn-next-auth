@@ -355,6 +355,7 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
           </div>
           <div className="space-x-2 flex items-center justify-start w-full">
             <Button
+              type="button"
               disabled={isLoading}
               variant="outline"
               onClick={() => router.back()}
