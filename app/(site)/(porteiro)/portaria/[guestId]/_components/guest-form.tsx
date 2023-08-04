@@ -301,7 +301,11 @@ const GuestForm = () => {
             )}
           </div>
           <div className="space-x-2 flex items-center justify-start w-full">
-            <Button variant="outline" onClick={() => router.back()}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.back()}
+            >
               Voltar
             </Button>
             <Button disabled={isLoading} type="submit">
