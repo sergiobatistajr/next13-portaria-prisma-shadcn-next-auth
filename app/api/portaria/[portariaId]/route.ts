@@ -21,6 +21,7 @@ export async function PATCH(
       model,
       pax,
       apartment,
+      observations,
     } = body;
 
     if (!currentUser) {
@@ -63,6 +64,7 @@ export async function PATCH(
         model,
         pax,
         apartment,
+        observations,
       },
     });
 
