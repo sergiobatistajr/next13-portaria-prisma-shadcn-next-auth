@@ -30,7 +30,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => router.push(`/admin/${data.id}`)}>
+          <DropdownMenuItem onClick={() => router.push(`/report/${data.id}`)}>
             <ClipboardEdit className="h-4 w-4 mr-2" />
             Editar
           </DropdownMenuItem>
