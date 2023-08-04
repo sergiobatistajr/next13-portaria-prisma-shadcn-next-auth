@@ -226,6 +226,14 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
             </div>
           )}
           <div className="space-x-2 flex items-center justify-start w-full">
+            <Button
+              type="button"
+              disabled={isLoading}
+              variant="outline"
+              onClick={() => router.back()}
+            >
+              Voltar
+            </Button>
             <Button disabled={isLoading} type="submit">
               Cadastar
             </Button>
