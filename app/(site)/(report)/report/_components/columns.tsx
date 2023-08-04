@@ -10,6 +10,7 @@ export type GuestColumns = {
   plate: string | null;
   name: string;
   apartment: string | null;
+  isInside: boolean;
   observations: string | null;
   model: string | null;
   pax: string | null;
@@ -82,7 +83,12 @@ export const columns: ColumnDef<GuestColumns>[] = [
   {
     id: "actions",
     header: "Ações",
-    cell: ({ row }) =>
-      row.original.role !== "admin" ? null : <CellAction data={row.original} />,
+    cell: ({ row }) => {
+      const { role, isInside } = row.original;
+      if (role !== "admin" || isInside) {
+        return null;
+      }
+      return <CellAction data={row.original} />;
+    },
   },
 ];
