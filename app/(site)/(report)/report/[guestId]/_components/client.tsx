@@ -54,6 +54,7 @@ const formSchema = z
     }),
     model: z.string(),
     pax: z.coerce.number().int(),
+    observations: z.string().optional(),
   })
   .refine(
     (data) => {
@@ -159,6 +160,7 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
       plate: initialData?.plate ?? "",
       model: initialData?.model ?? "",
       pax: initialData?.pax ?? 0,
+      observations: initialData?.observations ?? "",
     },
   });
 
@@ -297,6 +299,20 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
                     <Input type="number" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormDescription>Número do apartamento</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="observations"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Observação</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Observação" {...field} />
+                  </FormControl>
+                  <FormDescription>Observação sobre a entrada</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
