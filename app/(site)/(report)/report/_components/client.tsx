@@ -36,6 +36,7 @@ const ClientReport: React.FC<ClientReportProps> = ({ data, user }) => {
       apartment: item.apartment ? item.apartment.toString() : "-",
       dataExitDate: exitDate ? exitDate : "-",
       observations: item.observations ? item.observations : "-",
+      role: user?.role ?? "",
     };
   });
   const handleExport = () => {

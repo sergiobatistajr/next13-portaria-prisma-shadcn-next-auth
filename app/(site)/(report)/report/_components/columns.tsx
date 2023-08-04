@@ -1,11 +1,11 @@
 "use client";
-
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
+import { CellAction } from "./cell-action";
 
-export type InsidersColumn = {
+export type GuestColumns = {
   id: string;
   plate: string | null;
   name: string;
@@ -13,9 +13,10 @@ export type InsidersColumn = {
   observations: string | null;
   model: string | null;
   pax: string | null;
+  role: string;
 };
 
-export const columns: ColumnDef<InsidersColumn>[] = [
+export const columns: ColumnDef<GuestColumns>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -77,5 +78,11 @@ export const columns: ColumnDef<InsidersColumn>[] = [
   {
     accessorKey: "pax",
     header: "Pax",
+  },
+  {
+    id: "actions",
+    header: "Ações",
+    cell: ({ row }) =>
+      row.original.role !== "admin" ? null : <CellAction data={row.original} />,
   },
 ];
