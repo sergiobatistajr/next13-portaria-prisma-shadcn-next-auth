@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import getUser from "@/actions/getCurrentUser";
 import prismadb from "@/lib/prismadb";
 
+export async function GET(req: Request) {
+  try {
+    const guests = await prismadb.guest.findMany();
+
+    return NextResponse.json(guests);
+  } catch (error) {
+    console.log("[PORTARIA_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const currentUser = await getUser();
