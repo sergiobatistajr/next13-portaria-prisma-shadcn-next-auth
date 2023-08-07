@@ -3,6 +3,8 @@ import Register from "./_components/register-form";
 import ClientAdmin from "./_components/client";
 import getUsers from "@/actions/getUsers";
 
+export const dynamic = "force-dynamic";
+
 const AdminPage = async () => {
   const users = await getUsers();
   return (

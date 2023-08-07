@@ -59,7 +59,7 @@ const Register = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setIsLoading(true);
-      await axios.post("/api/register", values);
+      await axios.post("/api/users", values);
       toast.success("Usuário cadastrado com sucesso!");
       router.refresh();
     } catch (error: any) {

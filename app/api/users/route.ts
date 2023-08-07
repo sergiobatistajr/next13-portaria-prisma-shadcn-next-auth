@@ -3,6 +3,17 @@ import { NextResponse } from "next/server";
 import getUser from "@/actions/getCurrentUser";
 import prismadb from "@/lib/prismadb";
 
+export async function GET(req: Request) {
+  try {
+    const users = await prismadb.user.findMany();
+
+    return NextResponse.json(users);
+  } catch (error) {
+    console.log("[USERS_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const currentUser = await getUser();
@@ -54,7 +65,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(user);
   } catch (error) {
-    console.log("[REGISTER_POST]", error);
+    console.log("[USERS_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
