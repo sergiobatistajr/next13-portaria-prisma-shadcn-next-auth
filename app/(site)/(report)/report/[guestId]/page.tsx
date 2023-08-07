@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import getGuestsById from "@/actions/getGuestById";
 import { ClientGuestFixForm } from "./_components/client";
 import getCurrentUser from "@/actions/getCurrentUser";
-
+export const dynamic = "force-dynamic";
 const GuestIdPage = async ({
   params,
 }: {
