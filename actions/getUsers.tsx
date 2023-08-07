@@ -1,9 +1,10 @@
-import prismadb from "@/lib/prismadb";
+import { User } from "@prisma/client";
 
-const getUsers = async () => {
-  const users = await prismadb.user.findMany();
+const URL = `${process.env.NEXT_PUBLIC_API}/api/users`;
 
-  return users;
+const getUsers = async (): Promise<User[] | null> => {
+  const users = await fetch(URL);
+  return users.json();
 };
 
 export default getUsers;
