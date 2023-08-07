@@ -140,7 +140,7 @@ const formSchema = z
   );
 
 interface ClientGuestFixFormProps {
-  initialData: Guest | null;
+  initialData: Guest;
 }
 
 export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
@@ -154,8 +154,8 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
       name: initialData?.name,
       entryDate: initialData?.entryDate,
       entryHour: initialData?.entryHour,
-      exitDate: initialData?.exitDate ?? new Date(),
-      exitHour: initialData?.exitHour ?? "",
+      exitDate: initialData?.exitDate!,
+      exitHour: initialData?.exitHour!,
       apartment: initialData?.apartment ?? 0,
       plate: initialData?.plate ?? "",
       model: initialData?.model ?? "",
@@ -206,14 +206,13 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Input
+                          type="date"
                           className={cn(
                             " pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                           value={
-                            field.value
-                              ? format(field.value, "dd/MM/yyyy")
-                              : "Escolha a data"
+                            field.value ? format(field.value, "yyyy-MM-dd") : ""
                           }
                         />
                       </FormControl>
@@ -327,14 +326,13 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Input
+                          type="date"
                           className={cn(
                             " pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                           value={
-                            field.value
-                              ? format(field.value, "dd/MM/yyyy")
-                              : "Escolha a data"
+                            field.value ? format(field.value, "yyyy-MM-dd") : ""
                           }
                         />
                       </FormControl>

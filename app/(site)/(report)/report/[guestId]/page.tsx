@@ -16,6 +16,9 @@ const GuestIdPage = async ({
     return redirect("/");
   }
   const guest = await getGuestsById(params.guestId);
+  if (!guest) {
+    return null;
+  }
 
   return <ClientGuestFixForm initialData={guest} />;
 };
