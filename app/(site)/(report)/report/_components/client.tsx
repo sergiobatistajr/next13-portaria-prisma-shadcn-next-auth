@@ -9,7 +9,7 @@ import { columns } from "./columns";
 import { Button } from "@/components/ui/button";
 import { exportToExcel, cn } from "@/lib/utils";
 interface ClientReportProps {
-  data: Guest[];
+  data: Guest[] | null;
   user: {
     name: string;
     role: string;
@@ -17,7 +17,7 @@ interface ClientReportProps {
 }
 
 const ClientReport: React.FC<ClientReportProps> = ({ data, user }) => {
-  const formattedGuests = data.map((item) => {
+  const formattedGuests = data?.map((item) => {
     const entryDayMounthYear = format(new Date(item.entryDate), "dd/MM/yyyy");
     const entryDate = `${entryDayMounthYear} ${item.entryHour}`;
     let exitDate = null;
@@ -40,6 +40,9 @@ const ClientReport: React.FC<ClientReportProps> = ({ data, user }) => {
     };
   });
   const handleExport = () => {
+    if (!data?.length) {
+      return;
+    }
     exportToExcel(data, "data.xlsx");
   };
 
@@ -47,7 +50,7 @@ const ClientReport: React.FC<ClientReportProps> = ({ data, user }) => {
     <Container>
       <DataTable
         columns={columns}
-        data={formattedGuests}
+        data={formattedGuests ?? []}
         searchKey="name"
         searchKeyLabel="Filtrar por nome..."
         searchKey2="plate"
@@ -59,7 +62,7 @@ const ClientReport: React.FC<ClientReportProps> = ({ data, user }) => {
             variant="outline"
             onClick={handleExport}
             size="sm"
-            className={cn(!data.length && "hidden")}
+            className={cn(!data?.length && "hidden")}
           >
             Exportar para Excel
           </Button>
