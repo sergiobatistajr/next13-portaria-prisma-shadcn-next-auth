@@ -30,7 +30,11 @@ import { Input } from "@/components/ui/input";
 import Container from "@/components/ui/container";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const roles = ["admin", "porteiro", "relatorio"];
+enum UserRole {
+  Admin = "admin",
+  Porteiro = "porteiro",
+  Relatorio = "relatorio",
+}
 
 const formSchema = z
   .object({
@@ -75,7 +79,7 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
     } || {
       name: "",
       username: "",
-      role: "relatorio",
+      role: UserRole.Relatorio,
       isActive: true,
       password: "",
       confirmPassword: "",
@@ -144,7 +148,7 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {roles.map((role) => (
+                        {Object.values(UserRole).map((role) => (
                           <SelectItem key={role} value={role}>
                             {role}
                           </SelectItem>
