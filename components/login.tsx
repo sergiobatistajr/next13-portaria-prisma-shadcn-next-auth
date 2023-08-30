@@ -41,13 +41,18 @@ const Login = () => {
         ...values,
         redirect: false,
       });
-      if (result?.error) {
-        return toast.error("Usuário ou senha incorretos");
+      if (!result) {
+        toast.error("Algo deu errado");
+        return;
       }
-      if (result?.ok) {
-        toast.success("Login efetuado com sucesso");
-        return router.refresh();
+      if (result.error) {
+        toast.error("Usuário ou senha incorretos");
+        return;
       }
+
+      router.refresh();
+      window.location.reload();
+      form.reset();
     } catch (error) {
       toast.error("Algo deu errado");
     }
