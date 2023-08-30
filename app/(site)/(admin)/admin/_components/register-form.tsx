@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -27,7 +26,11 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
-const roles = ["admin", "porteiro", "relatorio"];
+enum UserRole {
+  Admin = "admin",
+  Porteiro = "porteiro",
+  Relatorio = "relatorio",
+}
 
 const formSchema = z
   .object({
@@ -43,30 +46,26 @@ const formSchema = z
   });
 
 const Register = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       username: "",
       password: "",
       confirmPassword: "",
-      role: "relatorio",
+      role: UserRole.Relatorio,
     },
   });
+  const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true);
       await axios.post("/api/register", values);
       toast.success("Usuário cadastrado com sucesso!");
       router.refresh();
     } catch (error: any) {
       toast.error("Ocorreu um erro ao cadastrar o usuário!");
-    } finally {
-      setIsLoading(false);
-      form.reset();
     }
   }
 
@@ -119,7 +118,7 @@ const Register = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {roles.map((role) => (
+                    {Object.values(UserRole).map((role) => (
                       <SelectItem key={role} value={role}>
                         {role}
                       </SelectItem>
