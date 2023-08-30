@@ -64,10 +64,9 @@ interface EditUserFormProps {
 }
 
 const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       ...initialValues,
@@ -82,19 +81,15 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
       confirmPassword: "",
     },
   });
-
+  const isLoading = form.formState.isSubmitting;
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true);
-
       await axios.patch(`/api/users/${initialValues.id}`, values);
       toast.success("Usuário atualizado com sucesso!");
       router.refresh();
       router.push("/admin");
     } catch (error: any) {
       toast.error("Ocorreu um erro ao atualizar o usuário!");
-    } finally {
-      setIsLoading(false);
     }
   }
 
