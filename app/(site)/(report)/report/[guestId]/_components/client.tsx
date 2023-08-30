@@ -146,14 +146,13 @@ interface ClientGuestFixFormProps {
 export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
   initialData,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: initialData?.name,
-      entryDate: initialData?.entryDate,
-      entryHour: initialData?.entryHour,
+      name: initialData?.name ?? "",
+      entryDate: initialData?.entryDate ?? new Date(),
+      entryHour: initialData?.entryHour ?? "",
       exitDate: initialData?.exitDate ?? new Date(),
       exitHour: initialData?.exitHour ?? "",
       apartment: initialData?.apartment ?? 0,
@@ -164,17 +163,16 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
     },
   });
 
+  const isLoading = form.formState.isSubmitting;
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true);
       await axios.patch(`/api/portaria/${initialData?.id}`, values);
       toast.success(`${values.name} atualizado com sucesso`);
       router.refresh();
       router.push("/report");
     } catch (error: any) {
       toast.error("Erro ao atualizar");
-    } finally {
-      setIsLoading(false);
     }
   }
   return (
