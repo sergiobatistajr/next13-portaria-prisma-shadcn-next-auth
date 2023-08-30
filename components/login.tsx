@@ -26,9 +26,8 @@ const formSchema = z.object({
 
 const Login = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
@@ -38,7 +37,6 @@ const Login = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true);
       const result = await signIn("credentials", {
         ...values,
         redirect: false,
@@ -52,11 +50,9 @@ const Login = () => {
       }
     } catch (error) {
       toast.error("Algo deu errado");
-    } finally {
-      setIsLoading(false);
     }
   }
-
+  const isLoading = form.formState.isSubmitting;
   useEffect(() => {
     setIsMounted(true);
   }, []);
