@@ -113,10 +113,9 @@ const formSchema = z
   );
 
 const GuestForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [isCar, setIsCar] = useState(true);
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -130,17 +129,16 @@ const GuestForm = () => {
     },
   });
 
+  const isLoading = form.formState.isSubmitting;
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true);
       await axios.post("/api/portaria", values);
       toast.success(`${values.name} cadastrado com sucesso`);
       router.refresh();
       router.push("/portaria");
     } catch (error: any) {
       toast.error("Erro ao cadastrar");
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -161,7 +159,11 @@ const GuestForm = () => {
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder="Nome completo" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Nome completo"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>Nome do visitante</FormDescription>
                   <FormMessage />
@@ -178,6 +180,7 @@ const GuestForm = () => {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Input
+                          disabled={isLoading}
                           className={cn(
                             " pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
@@ -212,7 +215,7 @@ const GuestForm = () => {
                 <FormItem>
                   <FormLabel>Hora da entrada</FormLabel>
                   <FormControl>
-                    <Input type="time" {...field} />
+                    <Input disabled={isLoading} type="time" {...field} />
                   </FormControl>
                   <FormDescription>Hora da entrada</FormDescription>
                   <FormMessage />
@@ -226,7 +229,11 @@ const GuestForm = () => {
                 <FormItem>
                   <FormLabel>Observação</FormLabel>
                   <FormControl>
-                    <Input placeholder="Observação" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Observação"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>Observação sobre a entrada</FormDescription>
                   <FormMessage />
@@ -243,6 +250,7 @@ const GuestForm = () => {
                       <FormLabel>Placa</FormLabel>
                       <FormControl>
                         <Input
+                          disabled={isLoading}
                           placeholder="Veículo"
                           {...field}
                           onChange={(e) =>
@@ -262,7 +270,11 @@ const GuestForm = () => {
                     <FormItem>
                       <FormLabel>Modelo</FormLabel>
                       <FormControl>
-                        <Input placeholder="Modelo" {...field} />
+                        <Input
+                          disabled={isLoading}
+                          placeholder="Modelo"
+                          {...field}
+                        />
                       </FormControl>
                       <FormDescription>Modelo do veículo</FormDescription>
                       <FormMessage />
@@ -276,7 +288,7 @@ const GuestForm = () => {
                     <FormItem>
                       <FormLabel>Passante</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input disabled={isLoading} type="number" {...field} />
                       </FormControl>
                       <FormDescription>Número de passageiros</FormDescription>
                       <FormMessage />
@@ -290,7 +302,7 @@ const GuestForm = () => {
                     <FormItem>
                       <FormLabel>Apartamento</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input disabled={isLoading} type="number" {...field} />
                       </FormControl>
                       <FormDescription>Número do apartamento</FormDescription>
                       <FormMessage />
@@ -302,6 +314,7 @@ const GuestForm = () => {
           </div>
           <div className="space-x-2 flex items-center justify-start w-full">
             <Button
+              disabled={isLoading}
               type="button"
               variant="outline"
               onClick={() => router.back()}
