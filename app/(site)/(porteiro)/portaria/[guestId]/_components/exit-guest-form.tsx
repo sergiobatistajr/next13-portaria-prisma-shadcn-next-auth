@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -158,36 +157,39 @@ interface ExitGuestFormProps {
 }
 
 const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      name: "",
-      entryDate: new Date(),
-      entryHour: "",
-      exitDate: new Date(),
-      exitHour: "",
-      plate: "",
-      model: "",
-      pax: 0,
-      apartment: 0,
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          exitDate: new Date(),
+          exitHour: "",
+        }
+      : {
+          name: "",
+          entryDate: new Date(),
+          entryHour: "",
+          exitDate: new Date(),
+          exitHour: "",
+          plate: "",
+          model: "",
+          pax: 0,
+          apartment: 0,
+        },
   });
+  const isLoading = form.formState.isSubmitting;
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsLoading(true);
       await axios.patch(`/api/portaria/${initialData.id}`, values);
       toast.success(`${values.name} atualizado com sucesso`);
       router.refresh();
       router.push("/portaria");
     } catch (error: any) {
       toast.error("Erro ao atualizar");
-    } finally {
-      setIsLoading(false);
     }
-  }
+  };
   return (
     <Container>
       <Form {...form}>
