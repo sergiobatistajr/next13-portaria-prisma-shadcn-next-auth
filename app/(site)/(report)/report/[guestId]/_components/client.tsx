@@ -233,7 +233,7 @@ const FixGuestForm = ({ initialData }: { initialData: Awaited<Guest> }) => {
               name="entryHour"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Data da entrada</FormLabel>
+                  <FormLabel>Hora da entrada</FormLabel>
                   <FormControl>
                     <Input type="time" {...field} />
                   </FormControl>
@@ -333,6 +333,7 @@ const FixGuestForm = ({ initialData }: { initialData: Awaited<Guest> }) => {
                         mode="single"
                         selected={field.value}
                         onDayClick={field.onChange}
+                        locale={ptBR}
                         initialFocus
                       />
                     </PopoverContent>
