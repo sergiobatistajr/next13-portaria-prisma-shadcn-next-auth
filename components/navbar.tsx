@@ -40,12 +40,18 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
       active: pathname === "/admin",
     });
 
+  const name =
+    user.name.split(" ")[0] +
+    " " +
+    user.name.split(" ")[user.name.split(" ").length - 1].slice(0, 1) +
+    ".";
+
   return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
         <MainNav routes={routes} className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
-          {user.name}
+          {name}
           <Button variant="ghost" size="icon" onClick={() => signOut()}>
             Sair
           </Button>

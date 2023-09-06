@@ -55,9 +55,9 @@ export async function PATCH(
       },
       data: {
         name,
-        entryDate: new Date(entryDate),
+        entryDate,
         entryHour,
-        exitDate: new Date(exitDate),
+        exitDate,
         exitHour,
         isInside: false,
         plate,

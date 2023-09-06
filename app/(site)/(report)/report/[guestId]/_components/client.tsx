@@ -1,13 +1,14 @@
 "use client";
-import { useState } from "react";
+
 import { useRouter } from "next/navigation";
-import { Guest } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { format } from "date-fns";
+import { Guest } from "@prisma/client";
+import { ptBR } from "date-fns/locale";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -46,21 +47,26 @@ const formSchema = z
         invalid_type_error: "Hora de saída inválida",
       })
       .nonempty({ message: "A hora de saída é obrigatória" }),
-    apartment: z.coerce.number().refine(validateApartment, {
-      message: "Apartamento inválido",
-    }),
-    plate: z.string().refine(validateMercosul, {
-      message: "Placa inválida no padrão Mercosul",
-    }),
-    model: z.string(),
-    pax: z.coerce.number().int(),
-    observations: z.string().optional(),
+    apartment: z.coerce
+      .number()
+      .refine(validateApartment, {
+        message: "Apartamento inválido",
+      })
+      .nullable(),
+    plate: z
+      .string()
+      .refine(validateMercosul, {
+        message: "Placa inválida no padrão Mercosul",
+      })
+      .nullable(),
+    model: z.string().nullable(),
+    pax: z.coerce.number().int().nullable(),
   })
   .refine(
     (data) => {
-      const entryDate = new Date(data.entryDate);
+      const entryDate = data.entryDate;
       const entryHour = data.entryHour.split(":");
-      const exitDate = new Date(data.exitDate);
+      const exitDate = data.exitDate;
       const exitHour = data.exitHour.split(":");
 
       const entry = new Date(
@@ -139,44 +145,35 @@ const formSchema = z
     }
   );
 
-interface ClientGuestFixFormProps {
-  initialData: Guest | null;
-}
-
-export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
-  initialData,
-}) => {
+const FixGuestForm = ({ initialData }: { initialData: Awaited<Guest> }) => {
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: initialData?.name ?? "",
-      entryDate: initialData?.entryDate ?? new Date(),
-      entryHour: initialData?.entryHour ?? "",
-      exitDate: initialData?.exitDate ?? new Date(),
-      exitHour: initialData?.exitHour ?? "",
-      apartment: initialData?.apartment ?? 0,
-      plate: initialData?.plate ?? "",
-      model: initialData?.model ?? "",
-      pax: initialData?.pax ?? 0,
-      observations: initialData?.observations ?? "",
+      ...initialData,
+      plate: initialData.plate ?? "",
+      apartment: initialData.apartment ?? 0,
+      observations: initialData.observations ?? "",
+      model: initialData.model ?? "",
+      pax: initialData.pax ?? 0,
+      exitDate: initialData.exitDate!,
+      exitHour: initialData.exitHour!,
     },
   });
-
   const isLoading = form.formState.isSubmitting;
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/portaria/${initialData?.id}`, values);
+      await axios.patch(`/api/portaria/${initialData.id}`, values);
       toast.success(`${values.name} atualizado com sucesso`);
       router.refresh();
       router.push("/report");
     } catch (error: any) {
       toast.error("Erro ao atualizar");
     }
-  }
+  };
   return (
-    <Container>
+    <div className="container">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="pt-3 md:grid md:grid-cols-4 gap-4 mb-10">
@@ -219,9 +216,9 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
+                        locale={ptBR}
                         selected={field.value}
-                        // @ts-ignore
-                        onSelect={field.onChange}
+                        onDayClick={field.onChange}
                         initialFocus
                       />
                     </PopoverContent>
@@ -245,76 +242,70 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="plate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Placa</FormLabel>
-                  <FormControl>
-                    <Input {...field} value={field.value ?? ""} />
-                  </FormControl>
-                  <FormDescription>Placa do veículo</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="model"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Modelo</FormLabel>
-                  <FormControl>
-                    <Input {...field} value={field.value ?? ""} />
-                  </FormControl>
-                  <FormDescription>Modelo do veículo</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="pax"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Passante</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} value={field.value ?? ""} />
-                  </FormControl>
-                  <FormDescription>Número de passageiros</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="apartment"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Apartamento</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} value={field.value ?? ""} />
-                  </FormControl>
-                  <FormDescription>Número do apartamento</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="observations"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Observação</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Observação" {...field} />
-                  </FormControl>
-                  <FormDescription>Observação sobre a entrada</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {initialData.plate ? (
+              <FormField
+                control={form.control}
+                name="plate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Placa</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>Placa do veículo</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : null}
+            {initialData.model ? (
+              <FormField
+                control={form.control}
+                name="model"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Modelo</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>Modelo do veículo</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : null}
+            {initialData.pax ? (
+              <FormField
+                control={form.control}
+                name="pax"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Passante</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} />
+                    </FormControl>
+                    <FormDescription>Número de passageiros</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : null}
+            {initialData.apartment ? (
+              <FormField
+                control={form.control}
+                name="apartment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Apartamento</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} />
+                    </FormControl>
+                    <FormDescription>Número do apartamento</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : null}
             <FormField
               control={form.control}
               name="exitDate"
@@ -341,8 +332,7 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
                       <Calendar
                         mode="single"
                         selected={field.value}
-                        // @ts-ignore
-                        onSelect={field.onChange}
+                        onDayClick={field.onChange}
                         initialFocus
                       />
                     </PopoverContent>
@@ -367,7 +357,7 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
               )}
             />
           </div>
-          <div className="space-x-2 flex items-center justify-start w-full">
+          <div className="flex justify-end space-x-2">
             <Button
               type="button"
               disabled={isLoading}
@@ -377,11 +367,13 @@ export const ClientGuestFixForm: React.FC<ClientGuestFixFormProps> = ({
               Voltar
             </Button>
             <Button disabled={isLoading} type="submit">
-              Corrigir
+              Saída
             </Button>
           </div>
         </form>
       </Form>
-    </Container>
+    </div>
   );
 };
+
+export default FixGuestForm;

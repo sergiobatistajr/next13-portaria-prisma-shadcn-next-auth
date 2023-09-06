@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import getGuestsById from "@/actions/getGuestById";
-import { ClientGuestFixForm } from "./_components/client";
+import FixGuestForm from "./_components/client";
 import getCurrentUser from "@/actions/getCurrentUser";
 
 const GuestIdPage = async ({
@@ -12,12 +12,13 @@ const GuestIdPage = async ({
   };
 }) => {
   const user = await getCurrentUser();
-  if (user !== null && user.role !== "admin") {
-    return redirect("/");
-  }
   const guest = await getGuestsById(params.guestId);
 
-  return <ClientGuestFixForm initialData={guest} />;
+  if ((user !== null && user.role !== "admin") || !guest) {
+    return redirect("/");
+  }
+
+  return <FixGuestForm initialData={guest} />;
 };
 
 export default GuestIdPage;

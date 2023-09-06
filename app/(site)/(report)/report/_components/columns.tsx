@@ -1,20 +1,20 @@
 "use client";
 import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
+import { Guest } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import { CellAction } from "./cell-action";
 
-export type GuestColumns = {
-  id: string;
-  plate: string | null;
-  name: string;
-  apartment: string | null;
-  isInside: boolean;
-  observations: string | null;
-  model: string | null;
-  pax: string | null;
+export type GuestColumns = Omit<
+  Guest,
+  "entryDate" | "exitDate" | "apartment" | "pax"
+> & {
+  entryDate: string;
+  exitDate: string;
   role: string;
+  apartment: string | number;
+  pax: number | string;
 };
 
 export const columns: ColumnDef<GuestColumns>[] = [
@@ -37,7 +37,7 @@ export const columns: ColumnDef<GuestColumns>[] = [
     header: "Placa",
   },
   {
-    accessorKey: "dataEntryTime",
+    accessorKey: "entryDate",
     header: ({ column }) => {
       return (
         <Button
@@ -51,7 +51,11 @@ export const columns: ColumnDef<GuestColumns>[] = [
     },
   },
   {
-    accessorKey: "dataExitDate",
+    accessorKey: "entryHour",
+    header: "Hora de Entrada",
+  },
+  {
+    accessorKey: "exitDate",
     header: ({ column }) => {
       return (
         <Button
@@ -63,6 +67,10 @@ export const columns: ColumnDef<GuestColumns>[] = [
         </Button>
       );
     },
+  },
+  {
+    accessorKey: "exitHour",
+    header: "Hora de Saída",
   },
   {
     accessorKey: "apartment",

@@ -43,7 +43,7 @@ export async function POST(req: Request) {
         observations,
         model,
         pax,
-        entryDate: new Date(entryDate),
+        entryDate,
         entryHour,
         userId: currentUser.id,
       },

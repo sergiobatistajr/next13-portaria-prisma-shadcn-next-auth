@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 import { Button } from "@/components/ui/button";
 
@@ -21,7 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Container from "@/components/ui/container";
 import { validateApartment } from "@/validators/apartment";
 import { validateMercosul } from "@/validators/mercosul";
 import { cn } from "@/lib/utils";
@@ -49,10 +49,7 @@ const formSchema = z
         message: "Apartamento inválido",
       })
       .optional(),
-    name: z
-      .string()
-      .nonempty({ message: "O nome do proprietário é obrigatório" }),
-
+    name: z.string().nonempty({ message: "O nome é obrigatório" }),
     entryDate: z.date(),
     entryHour: z
       .string()
@@ -143,7 +140,7 @@ const GuestForm = () => {
   }
 
   return (
-    <Container>
+    <div className="container">
       <div className="pt-6 space-x-2 flex items-center justify-end w-full">
         <Button onClick={() => setIsCar(!isCar)}>
           {isCar ? "Entrada de Pedestre" : "Entrada de Carro"}
@@ -196,9 +193,9 @@ const GuestForm = () => {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
+                        locale={ptBR}
                         selected={field.value}
-                        // @ts-ignore
-                        onSelect={field.onChange}
+                        onDayClick={field.onChange}
                         initialFocus
                       />
                     </PopoverContent>
@@ -302,7 +299,7 @@ const GuestForm = () => {
                     <FormItem>
                       <FormLabel>Apartamento</FormLabel>
                       <FormControl>
-                        <Input disabled={isLoading} type="number" {...field} />
+                        <Input {...field} disabled={isLoading} type="number" />
                       </FormControl>
                       <FormDescription>Número do apartamento</FormDescription>
                       <FormMessage />
@@ -312,7 +309,7 @@ const GuestForm = () => {
               </>
             )}
           </div>
-          <div className="space-x-2 flex items-center justify-start w-full">
+          <div className="flex justify-end space-x-2">
             <Button
               disabled={isLoading}
               type="button"
@@ -327,7 +324,7 @@ const GuestForm = () => {
           </div>
         </form>
       </Form>
-    </Container>
+    </div>
   );
 };
 

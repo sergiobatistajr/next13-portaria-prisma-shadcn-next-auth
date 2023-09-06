@@ -2,11 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { format } from "date-fns";
+import { Guest } from "@prisma/client";
+import { ptBR } from "date-fns/locale";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -62,9 +64,9 @@ const formSchema = z
   })
   .refine(
     (data) => {
-      const entryDate = new Date(data.entryDate);
+      const entryDate = data.entryDate;
       const entryHour = data.entryHour.split(":");
-      const exitDate = new Date(data.exitDate);
+      const exitDate = data.exitDate;
       const exitHour = data.exitHour.split(":");
 
       const entry = new Date(
@@ -143,40 +145,20 @@ const formSchema = z
     }
   );
 
-interface ExitGuestFormProps {
-  initialData: {
-    id: string;
-    name: string;
-    plate: string | null;
-    entryDate: Date;
-    entryHour: string;
-    model: string | null;
-    pax: number | null;
-    apartment: number | null;
-  };
-}
-
-const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
+const ExitGuestForm = ({ initialData }: { initialData: Awaited<Guest> }) => {
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData
-      ? {
-          ...initialData,
-          exitDate: new Date(),
-          exitHour: "",
-        }
-      : {
-          name: "",
-          entryDate: new Date(),
-          entryHour: "",
-          exitDate: new Date(),
-          exitHour: "",
-          plate: "",
-          model: "",
-          pax: 0,
-          apartment: 0,
-        },
+    defaultValues: {
+      ...initialData,
+      plate: initialData.plate ?? "",
+      apartment: initialData.apartment ?? 0,
+      observations: initialData.observations ?? "",
+      model: initialData.model ?? "",
+      pax: initialData.pax ?? 0,
+      exitDate: initialData.exitDate ?? new Date(),
+      exitHour: initialData.exitHour ?? "",
+    },
   });
   const isLoading = form.formState.isSubmitting;
 
@@ -191,7 +173,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
     }
   };
   return (
-    <Container>
+    <div className="container">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="pt-3 md:grid md:grid-cols-4 gap-4 mb-10">
@@ -234,9 +216,9 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
+                        locale={ptBR}
                         selected={field.value}
-                        // @ts-ignore
-                        onSelect={field.onChange}
+                        onDayClick={field.onChange}
                         initialFocus
                       />
                     </PopoverContent>
@@ -268,7 +250,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Placa</FormLabel>
                     <FormControl>
-                      <Input {...field} value={field.value ?? ""} />
+                      <Input {...field} />
                     </FormControl>
                     <FormDescription>Placa do veículo</FormDescription>
                     <FormMessage />
@@ -284,7 +266,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Modelo</FormLabel>
                     <FormControl>
-                      <Input {...field} value={field.value ?? ""} />
+                      <Input {...field} />
                     </FormControl>
                     <FormDescription>Modelo do veículo</FormDescription>
                     <FormMessage />
@@ -300,11 +282,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Passante</FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
-                      />
+                      <Input type="number" {...field} />
                     </FormControl>
                     <FormDescription>Número de passageiros</FormDescription>
                     <FormMessage />
@@ -320,11 +298,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Apartamento</FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
-                      />
+                      <Input type="number" {...field} />
                     </FormControl>
                     <FormDescription>Número do apartamento</FormDescription>
                     <FormMessage />
@@ -358,8 +332,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
                       <Calendar
                         mode="single"
                         selected={field.value}
-                        // @ts-ignore
-                        onSelect={field.onChange}
+                        onDayClick={field.onChange}
                         initialFocus
                       />
                     </PopoverContent>
@@ -384,7 +357,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
               )}
             />
           </div>
-          <div className="space-x-2 flex items-center justify-start w-full">
+          <div className="flex justify-end space-x-2">
             <Button
               type="button"
               disabled={isLoading}
@@ -399,7 +372,7 @@ const ExitGuestForm: React.FC<ExitGuestFormProps> = ({ initialData }) => {
           </div>
         </form>
       </Form>
-    </Container>
+    </div>
   );
 };
 
