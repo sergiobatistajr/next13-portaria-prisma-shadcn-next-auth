@@ -16,7 +16,7 @@ const PortariaClient = ({ data }: { data: Awaited<Guest[]> }) => {
     return {
       ...item,
       apartment: item.apartment ? item.apartment : "-",
-      entryDate: format(item.entryDate, "dd/MM/yyyy"),
+      entryDate: format(item.entryDate, `yyy/MM/dd ${item.entryHour}`),
       plate: item.plate ? item.plate : "A pé",
     };
   });

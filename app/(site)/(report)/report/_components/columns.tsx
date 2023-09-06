@@ -51,10 +51,6 @@ export const columns: ColumnDef<GuestColumns>[] = [
     },
   },
   {
-    accessorKey: "entryHour",
-    header: "Hora de Entrada",
-  },
-  {
     accessorKey: "exitDate",
     header: ({ column }) => {
       return (
@@ -67,10 +63,6 @@ export const columns: ColumnDef<GuestColumns>[] = [
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "exitHour",
-    header: "Hora de Saída",
   },
   {
     accessorKey: "apartment",

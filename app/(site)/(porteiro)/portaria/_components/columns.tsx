@@ -48,10 +48,6 @@ export const columns: ColumnDef<InsidersColumn>[] = [
     },
   },
   {
-    accessorKey: "entryHour",
-    header: "Hora de Entrada",
-  },
-  {
     accessorKey: "apartment",
     header: "Apartamento",
   },

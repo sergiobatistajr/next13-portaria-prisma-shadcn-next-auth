@@ -3,15 +3,10 @@
 import { Guest, User } from "@prisma/client";
 import { format } from "date-fns";
 
-import Container from "@/components/ui/container";
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 import { Button } from "@/components/ui/button";
 import { exportToExcel, cn } from "@/lib/utils";
-// interface ClientReportProps {
-//   data: Guest[];
-//   role: User["role"];
-// }
 
 const ClientReport = ({
   data,
@@ -23,13 +18,15 @@ const ClientReport = ({
   const formattedGuests = data.map((item) => {
     return {
       ...item,
-      entryDate: format(item.entryDate, "dd/MM/yyyy"),
+      entryDate: format(item.entryDate, `yyy/MM/dd ${item.entryHour}`),
       plate: item.plate || "A pé",
       apartment: item.apartment || "-",
       observations: item.observations || "-",
       model: item.model || "-",
       pax: item.pax || "-",
-      exitDate: item.exitDate ? format(item.exitDate, "dd/MM/yyyy") : "-",
+      exitDate: item.exitDate
+        ? format(item.exitDate, `yyy/MM/dd ${item.exitHour}`)
+        : "-",
       role: role,
     };
   });
