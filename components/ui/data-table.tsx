@@ -33,6 +33,8 @@ interface DataTableProps<TData, TValue> {
   searchKeyLabel2?: string;
   searchKey3?: string;
   searchKeyLabel3?: string;
+  searchKey4?: string;
+  searchKeyLabel4?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -44,6 +46,8 @@ export function DataTable<TData, TValue>({
   searchKeyLabel2,
   searchKey3,
   searchKeyLabel3,
+  searchKey4,
+  searchKeyLabel4,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -100,6 +104,20 @@ export function DataTable<TData, TValue>({
               }
               onChange={(event) =>
                 table.getColumn(searchKey3)?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          </div>
+        )}
+        {searchKey4 && (
+          <div className="flex items-center py-4">
+            <Input
+              placeholder={searchKeyLabel3}
+              value={
+                (table.getColumn(searchKey4)?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn(searchKey4)?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
             />

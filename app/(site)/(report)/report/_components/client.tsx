@@ -44,6 +44,10 @@ const ClientReport = ({
         searchKeyLabel="Filtrar por nome..."
         searchKey2="plate"
         searchKeyLabel2="Filtrar por placa..."
+        searchKey3="entryDate"
+        searchKeyLabel3="Filtrar por data de entrada..."
+        searchKey4="exitDate"
+        searchKeyLabel4="Filtrar por data de saída..."
       />
       <div className="flex items-center justify-end">
         {role !== "porteiro" && (

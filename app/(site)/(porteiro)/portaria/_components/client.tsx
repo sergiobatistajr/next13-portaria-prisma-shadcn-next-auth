@@ -34,6 +34,8 @@ const PortariaClient = ({ data }: { data: Awaited<Guest[]> }) => {
         searchKeyLabel="Filtrar por nome..."
         searchKey2="plate"
         searchKeyLabel2="Filtrar por placa..."
+        searchKey3="entryDate"
+        searchKeyLabel3="Filtrar por data de entrada..."
       />
     </div>
   );
