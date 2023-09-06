@@ -27,7 +27,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import Container from "@/components/ui/container";
 import { Checkbox } from "@/components/ui/checkbox";
 
 enum UserRole {
@@ -58,13 +57,7 @@ const formSchema = z
     }
   );
 interface EditUserFormProps {
-  initialValues: Pick<
-    User,
-    "id" | "name" | "username" | "role" | "isActive"
-  > & {
-    password?: string;
-    confirmPassword?: string;
-  };
+  initialValues: Awaited<User>;
 }
 
 const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
@@ -74,13 +67,6 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       ...initialValues,
-      password: "",
-      confirmPassword: "",
-    } || {
-      name: "",
-      username: "",
-      role: UserRole.Relatorio,
-      isActive: true,
       password: "",
       confirmPassword: "",
     },
@@ -98,7 +84,7 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
   }
 
   return (
-    <Container>
+    <div className="container">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           {!isShow && (
@@ -110,7 +96,11 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nome completo" {...field} />
+                      <Input
+                        disabled={isLoading}
+                        placeholder="Nome completo"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>Este é seu nome completo</FormDescription>
                     <FormMessage />
@@ -124,7 +114,11 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
                   <FormItem>
                     <FormLabel>Usuário</FormLabel>
                     <FormControl>
-                      <Input placeholder="Seu usuário" {...field} />
+                      <Input
+                        disabled={isLoading}
+                        placeholder="Seu usuário"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>Este é seu usuário</FormDescription>
                     <FormMessage />
@@ -141,6 +135,7 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
                       // @ts-ignore
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      disabled={isLoading}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -167,6 +162,7 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                     <FormControl>
                       <Checkbox
+                        disabled={isLoading}
                         checked={field.value}
                         // @ts-ignore
                         onCheckedChange={field.onChange}
@@ -200,7 +196,7 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
                   <FormItem>
                     <FormLabel>Nova senha</FormLabel>
                     <FormControl>
-                      <Input type="password" {...field} />
+                      <Input disabled={isLoading} type="password" {...field} />
                     </FormControl>
                     <FormDescription>Está é sua senha</FormDescription>
                     <FormMessage />
@@ -215,7 +211,7 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
                   <FormItem>
                     <FormLabel>Confirme a nova senha</FormLabel>
                     <FormControl>
-                      <Input type="password" {...field} />
+                      <Input disabled={isLoading} type="password" {...field} />
                     </FormControl>
                     <FormDescription>Confirme a senha</FormDescription>
                     <FormMessage />
@@ -224,7 +220,7 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
               />
             </div>
           )}
-          <div className="space-x-2 flex items-center justify-start w-full">
+          <div className="space-x-2 flex justify-end">
             <Button
               type="button"
               disabled={isLoading}
@@ -234,12 +230,12 @@ const EditUser: React.FC<EditUserFormProps> = ({ initialValues }) => {
               Voltar
             </Button>
             <Button disabled={isLoading} type="submit">
-              Cadastar
+              Salvar
             </Button>
           </div>
         </form>
       </Form>
-    </Container>
+    </div>
   );
 };
 
